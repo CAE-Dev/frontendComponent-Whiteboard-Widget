@@ -31,7 +31,7 @@
  */
 
 var client;
-
+var likeArr, dislikeArr, statusArr;
 var init = function() {
   
   var iwcCallback = function(intent) {
@@ -52,16 +52,73 @@ Y({
   sourceDir: "http://y-js.org/bower_components",
   share: {
     dislikeStatus:'Text',
-likeStatus:'Text',
-whiteboard:'Text'
+    likeStatus:'Text',
+    whiteboard:'Text',
+    likeArr:'Array',
+    dislikeArr:'Array',
+    statusArr:'Array'
   }
 }).then(function (y) {
   window.yTextarea = y
 
   y.share.dislikeStatus.bind(document.getElementById('dislikeStatus'))
-y.share.likeStatus.bind(document.getElementById('likeStatus'))
-y.share.whiteboard.bind(document.getElementById('whiteboard'))
+  y.share.likeStatus.bind(document.getElementById('likeStatus'))
+  y.share.whiteboard.bind(document.getElementById('whiteboard'))
+  likeArr = y.share.likeArr;
+  dislikeArr = y.share.dislikeArr;
+  statusArr = y.share.statusArr;
 
+likeArr.observe(function(event){
+  console.dir(event)
+  if(event.length == 1){
+    if(event[0].value){
+      $("#likeStatus").val(event[0].value);
+    }
+  }
+})
+dislikeArr.observe(function(event){
+  console.dir(event)
+  if(event.length == 1){
+    if(event[0].value){
+      $("#dislikeStatus").val(event[0].value);
+    }
+  }
+})
+statusArr.observe(function(event){
+  console.dir(event)
+  if(event.length == 1){
+    if(event[0].value){
+      $("#status").val(event[0].value);
+    }
+  }
+})
+
+  if(likeArr.toArray().length < 1){
+
+    likeArr.push([0]);
+  }
+  
+
+  if(dislikeArr.toArray().length < 1){
+
+    dislikeArr.push([0]);
+  }
+
+  console.log(likeArr.toArray())
+  console.log(dislikeArr.toArray())
+  $("#likeStatus").val(likeArr.toArray()[0]);
+  $("#dislikeStatus").val( dislikeArr.toArray()[0]);
+
+  if(statusArr.toArray().length<1){
+  }
+  else if(statusArr.toArray().length>1){
+    statusArr.delete(0,statusArr.toArray().length);
+    statusArr.push([""])
+  }
+  else{
+    statusArr.delete(0,statusArr.toArray().length);
+    statusArr.push([""])
+  }
 })
 
 
@@ -75,27 +132,57 @@ y.share.whiteboard.bind(document.getElementById('whiteboard'))
   $('#likeButton').on('click', function() {
     likeFunction();
   })
+
+
+
 }
 
 
 // newPageFunction
 var newPageFunction = function(){
-  $("#status").html("Upated Element");
+  // Reset all
+
+
+  likeArr.delete(0,likeArr.toArray().length);
+  likeArr.push([0]);
+
+  dislikeArr.delete(0,dislikeArr.toArray().length);
+  dislikeArr.push([0]);
+  $("#whiteboard").val('');
+  $("#likeStatus").val(likeArr.toArray()[0]);
+  $("#dislikeStatus").val(dislikeArr.toArray()[0]);
+  feedbackStatus("New Page Created")
 }
 
 
 // likeFunction
 var likeFunction = function(){
-  $("#likeStatus").html("Upated Element");
+  var valTemp = likeArr.toArray()[0];
+  likeArr.delete(0,likeArr.toArray().length);
+  likeArr.push([valTemp+ 1]);
+  $("#likeStatus").val(likeArr.toArray()[0]);
+  feedbackStatus("A person liked the content")
 }
 
 
 // dislikeFunction
 var dislikeFunction = function(){
-  $("#dislikeStatus").html("Upated Element");
+  var valTemp = dislikeArr.toArray()[0];
+  dislikeArr.delete(0,dislikeArr.toArray().length);
+  dislikeArr.push([valTemp + 1]);
+  $("#dislikeStatus").val(dislikeArr.toArray()[0]);
+  feedbackStatus("A person disliked the content")
 }
 
 
 $(document).ready(function() {
   init();
 });
+
+function feedbackStatus(text){
+  $("#status").val(text);
+
+    statusArr.delete(0,statusArr.toArray().length);
+    statusArr.push([text])
+
+}

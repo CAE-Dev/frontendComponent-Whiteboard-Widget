@@ -98,14 +98,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   <!-- container for actual page content -->
   <div class="container" id="main-content">
 
-    <input id='dislikeStatus'></input>
-    <input id='status'></input>
-    <button id='newPage' class="btn btn-default">newPage</button>
-    <button id='dislikeButton' class="btn btn-default">dislikeButton</button>
-    <input id='likeStatus'></input>
-    <textarea id='whiteboard' class="form-control" rows="5"></textarea>
-    <button id='likeButton' class="btn btn-default">likeButton</button>
 
+        <button id='newPage' class="btn btn-default">New Page</button>
+
+        <textarea id='whiteboard' class="form-control" rows="5"></textarea>
+    <div class="form-group text-center">
+      <div class="btn-group">
+        <button id='likeButton' class="btn btn-default"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+        <button id='dislikeButton' class="btn btn-default"><span class="glyphicon glyphicon-thumbs-down"></span></button>
+      </div>
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon glyphicon glyphicon-thumbs-up"></span>
+      <input id='likeStatus' class="form-control" value="0" readonly></input>
+        <span class="input-group-addon glyphicon glyphicon-thumbs-down"></span>
+      <input id='dislikeStatus' class="form-control" value="0" readonly></input>
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon">Status</span>
+       <input id='status' class="form-control" readonly></input>
+    </div>
+      
+
+      
+
+      
+     
+    
   </div>
 
 </body>
